@@ -42,7 +42,7 @@ Private Usage
 =============
 ```javascript
 var PrivateApplication = require('nodefreshbooks').PrivateApplication;
-var privateApp = new PrivateApplication({ token: 'AAAAA', key: 'BBBBBB'});
+var privateApp = new PrivateApplication({ token: 'AAAAA', account: '<my freshbooks account name>'});
 ```
 
 
@@ -50,7 +50,7 @@ Pubic Usage
 =============
 ```javascript
 var PublicApplication = require('nodefreshbooks').PublicApplication;
-var publicApp = new PublicApplication({ consumerSecret: 'AAAAA', consumerKey: 'BBBBBB'});
+var publicApp = new PublicApplication({ secret: 'AAAAA', account: '<my freshbooks account name>'});
 ```
 
 
