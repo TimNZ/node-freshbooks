@@ -10,11 +10,11 @@
     "test": "mocha"
   },
   "keywords": [
-    "xero",
+    "freshbooks",
     "api"
   ],
   "author": "Tim Shnaider",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "dateformat": "~1.0.7-1.2.3",
     "lodash": "~2.4.1",
