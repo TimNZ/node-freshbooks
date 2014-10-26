@@ -8,8 +8,8 @@ var express = require('express'),
 function getFreshbooksApp(session)
 {
     var config={ authorizeCallbackUrl: 'http://localhost:3100/access',
-                 account: 'cloudglue',
-                 secret: 'fV6sZP5MQ9PR5EkSMpfHQKtzvcKzYyzxv' };
+                 account: 'test',
+                 secret: '12345' };
 
 
     if (session)

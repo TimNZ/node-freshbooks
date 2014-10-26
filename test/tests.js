@@ -17,7 +17,7 @@ describe('private application', function ()
     {
         it('init instance and set options', function ()
         {
-            currentApp = new freshbooks.PrivateApplication({ token: '4a3abb2ccecf731db0060da3824e04c6', account:'cloudglue'});
+            currentApp = new freshbooks.PrivateApplication({ token: '1', account:'test'});
         })
     })
 
