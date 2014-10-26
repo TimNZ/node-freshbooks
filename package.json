@@ -1,6 +1,6 @@
 {
   "name": "nodefreshbooks",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Freshbooks API Wrapper for all application types",
   "main": "lib/index.js",
   "directories": {
