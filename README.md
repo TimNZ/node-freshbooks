@@ -1,12 +1,6 @@
-node-xero
+node-freshbooks
 ===========
 An API wrapper for freshbooks (http://developer.freshbooks.com).
-
-Supports all three applications types:
-
-* Private (Password)
-
-* OAuth
 
 Create an Issue for any suggestions
 
@@ -36,7 +30,7 @@ var privateApp = new PrivateApplication({ token: 'AAAAA', key: 'BBBBBB'});
 Pubic Usage
 =============
 ```javascript
-var PublicApplication = require('node-xero').PublicApplication;
+var PublicApplication = require('nodefreshbooks').PublicApplication;
 var publicApp = new PublicApplication({ consumerSecret: 'AAAAA', consumerKey: 'BBBBBB'});
 ```
 
