@@ -40,14 +40,14 @@ Examples
 Efficient paging:
 
 ```javascript
-app.customers.get({ pager: {start:1 /* page number */, callback:onCustomers}})
+app.clients.list({ pager: {start:1 /* page number */, callback:onClients}})
     .fail(function(err)
     {
         console.log('Oh no, an error');
     })
 
 /* Called per page */
-function onCustomers(err, response, cb)
+function onClient(err, response, cb)
 {
     var customers = response.data;
     if (response.finished) // finished paging
@@ -57,16 +57,24 @@ function onCustomers(err, response, cb)
 
 ```
 
-Filter support: Modified After
-```
-// No paging
-app.customers.get({ })
-    .then(function(customers)
+List filters supported
+```javascript
+app.clients.list({ filter: {email: 'bob@test.com' }})
+    .then(function(clients)
     {
-        _.each(customers,  function(customer)
-        {
-            // Do something with customer
-        })
+        console.log(clients) // array
+    })
+    .fail(function(err)
+    {
+        console.log('Oh no, an error');
+    })
+```
+
+```
+// Get one entity
+app.clients.get('123456')
+    .then(function(client)
+    {
     })
 
 ```
