@@ -6,11 +6,30 @@ Create an Issue for any suggestions
 
 Features
 ========
-* Supports all entities
+* Supports all entities (planned)
 
 * Efficient paging
 
 * Support for Private (password) and OAuth applications
+
+
+Current Entity Support
+======================
+Others pending
+
+* Clients
+
+* Tasks
+
+* Projects
+
+* Staff
+
+* Invoices
+
+* Time Entries
+
+* Items
 
 
 Installation
@@ -40,7 +59,7 @@ Examples
 Efficient paging:
 
 ```javascript
-app.clients.list({ pager: {start:1 /* page number */, callback:onClients}})
+app.entities.clients.list({ pager: {start:1 /* page number */, callback:onClients}})
     .fail(function(err)
     {
         console.log('Oh no, an error');
@@ -59,7 +78,7 @@ function onClient(err, response, cb)
 
 List filters supported
 ```javascript
-app.clients.list({ filter: {email: 'bob@test.com' }})
+app.entities.clients.list({ filter: {email: 'bob@test.com' }})
     .then(function(clients)
     {
         console.log(clients) // array
@@ -72,7 +91,7 @@ app.clients.list({ filter: {email: 'bob@test.com' }})
 
 ```
 // Get one entity
-app.clients.get('123456')
+app.entities.clients.get('123456')
     .then(function(client)
     {
     })
