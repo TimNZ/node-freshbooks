@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+<h3>Items</h3>
+<table class="table table-bordered table-striped table-collapsed">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Unit Cost</td>
+    </tr>
+    </thead>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.item_id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.unit_cost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block title %}Time Entries{% endblock %}
+
+{% block content %}
+<h3>Time Entries</h3>
+<table class="table table-bordered table-striped table-collapsed">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Staff Id</td>
+        <td>Project Id</td>
+        <td>Task Id</td>
+        <td>Hours</td>
+        <td>Date</td>
+        <td>Notes</td>
+        <td>Billed</td>
+    </tr>
+    </thead>
+    {% for time_entry in time_entries %}
+    <tr>
+        <td>{{ time_entry.time_entry_id }}</td>
+        <td>{{ time_entry.staff_id}}</td>
+        <td>{{ time_entry.project_id }}</td>
+        <td>{{ time_entry.task_id }}</td>
+        <td>{{ time_entry.hours }}</td>
+        <td>{{ time_entry.date }}</td>
+        <td>{{ time_entry.notes }}</td>
+        <td>{{ time_entry.billed }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

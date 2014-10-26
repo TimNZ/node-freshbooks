@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}Staff{% endblock %}
+
+{% block content %}
+<table class="table table-bordered table-striped table-collapsed">
+<thead>
+<tr><td>ID</td><td>Email</td><td>First name</td><td>Last name</td></tr>
+</thead>
+{% for staff in staff_members %}
+<tr><td>{{ staff.staff_id }}</td><td>{{ staff.email }}</td><td>{{ staff.first_name }}</td><td>{{ staff.last_name }}</td></tr>
+{% endfor staffs %}
+</table>
+{% endblock %}

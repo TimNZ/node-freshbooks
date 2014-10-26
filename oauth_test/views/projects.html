@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<h3>Projects</h3>
+<table class="table table-bordered table-striped table-collapsed">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Rate</td>
+        <td>Bill Method</td>
+    </tr>
+    </thead>
+    {% for project in projects %}
+    <tr>
+        <td>{{ project.project_id }}</td>
+        <td>{{ project.name }}</td>
+        <td>{{ project.description }}</td>
+        <td>{{ project.rate }}</td>
+        <td>{{ project.bill_method }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

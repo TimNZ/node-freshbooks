@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}Create Time Entry{% endblock %}
+
+{% block content %}
+{{ err }}
+{% if created_time_entry_id %}
+<h4>Created Time Sheet Id: {{ created_time_entry_id }}</h4>
+{% endif %}
+
+<h3>Details</h3>
+<form method="post" >
+    Project Id <input name="project_id">
+    Task Id<input name="task_id">
+    Staff Id<input name="staff_id">
+    Hours<input name="hours">
+<input type="submit" value="Submit">
+</form>
+
+{% endblock %}

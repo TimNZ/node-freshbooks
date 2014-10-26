@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Invoices{% endblock %}
+
+{% block content %}
+<h3>Invoices</h3>
+<table class="table table-bordered table-striped table-collapsed">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Invoice Number</td>
+        <td>Date</td>
+        <td>Amount</td>
+        <td>Status</td>
+        <td>Currency</td>
+        <td></td>
+    </tr>
+    </thead>
+    {% for invoice in invoices %}
+    <tr>
+        <td>{{ invoice.invoice_id }}</td>
+        <td>{{ invoice.number}}</td>
+        <td>{{ invoice.date }}</td>
+        <td>{{ invoice.amount }}</td>
+        <td>{{ invoice.status}}</td>
+        <td>{{ invoice.currency_code }}</td>
+        <td><a href="/emailinvoice?id={{ invoice.invoice_id }}" class="btn btn-primary btn-xs">Email</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

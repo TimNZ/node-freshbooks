@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}Clients{% endblock %}
+
+{% block content %}
+<h3>Clients</h3>
+<table class="table table-bordered table-striped table-collapsed">
+<thead>
+<tr><td>ID</td><td>Email</td><td>First name</td><td>Last name</td></tr>
+</thead>
+{% for client in clients %}
+<tr><td>{{ client.client_id }}</td><td>{{ client.email }}</td><td>{{ client.first_name }}</td><td>{{ client.last_name }}</td></tr>
+{% endfor  %}
+</table>
+{% endblock %}
