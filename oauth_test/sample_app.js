@@ -1,7 +1,7 @@
 var express = require('express'),
     freshbooks = require('..'),
     swig = require('swig'),
-    fs = require('fs'),
+    qs = require('querystring'),
     nodemailer = require('nodemailer')
 
 
@@ -9,7 +9,7 @@ function getFreshbooksApp(session)
 {
     var config={ authorizeCallbackUrl: 'http://localhost:3100/access',
                  account: 'test',
-                 secret: '12345' };
+                 secret: '111' };
 
 
     if (session)
@@ -40,7 +40,7 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({ secret: '123456'}));
 
-function authorizeRedirect(req,res,returnTo)
+function authorizeRedirect(req,res,returnTo,callback)
 {
     var freshbooksApp = getFreshbooksApp(null,returnTo);
     freshbooksApp.getRequestToken(function (err, token, secret)
@@ -53,7 +53,10 @@ function authorizeRedirect(req,res,returnTo)
             res.redirect(authoriseUrl);
         }
         else {
-            res.redirect('/error');
+            var errData = { code: err.Code || err.statusCode, error: err.data};
+            callback && callback(errData);
+            if (!callback)
+                res.redirect('/error?' + qs.stringify(errData));
         }
     })
 
@@ -64,10 +67,10 @@ function authorizedOperation(req,res,returnTo, callback)
     if (req.session.oauthAccessToken)
     {
         var freshbooksApp = getFreshbooksApp(req.session);
-        callback(freshbooksApp);
+        callback(null,freshbooksApp);
     }
     else
-        authorizeRedirect(req,res,returnTo);
+        authorizeRedirect(req,res,returnTo,callback);
 }
 
 // Home Page
@@ -96,7 +99,7 @@ app.get('/access', function (req, res)
 
 app.get('/staff', function (req, res)
 {
-    authorizedOperation(req,res,'/staff', function(freshbooksApp)
+    authorizedOperation(req,res,'/staff', function(err,freshbooksApp)
     {
         var staff = [];
         freshbooksApp.entities.staff_members.list({ pager: { callback: pagerCallback}})
@@ -125,7 +128,7 @@ app.get('/error', function(req,res)
 
 app.get('/clients', function (req, res)
 {
-    authorizedOperation(req,res,'/clients', function(freshbooksApp)
+    authorizedOperation(req,res,'/clients', function(err,freshbooksApp)
     {
         var clients = [];
         freshbooksApp.entities.clients.list({ pager: { callback: pagerCallback}})
@@ -149,8 +152,10 @@ app.get('/clients', function (req, res)
 
 app.get('/timeentries', function (req, res)
 {
-    authorizedOperation(req,res,'/timeentries', function(freshbooksApp)
+    authorizedOperation(req,res,'/timeentries', function(err,freshbooksApp)
     {
+        if (err)
+            return res.render('timeentries.html', { err: err});
         freshbooksApp.entities.time_entries.list()
             .then(function(timeEntries)
             {
@@ -166,7 +171,7 @@ app.use('/createtimeentry', function (req, res)
         return res.render('createtimeentry.html');
     }
     else if (req.method == 'POST') {
-        authorizedOperation(req, res, '/createtimeentry', function (freshbooksApp)
+        authorizedOperation(req, res, '/createtimeentry', function (err,freshbooksApp)
         {
             var timeEntry = freshbooksApp.entities.time_entries.newTimeEntry({
                 project_id: req.body.project_id,
@@ -191,7 +196,7 @@ app.use('/createtimeentry', function (req, res)
 
 app.get('/invoices', function (req, res)
 {
-    authorizedOperation(req,res,'/invoices', function(freshbooksApp)
+    authorizedOperation(req,res,'/invoices', function(err,freshbooksApp)
     {
         freshbooksApp.entities.invoices.list()
             .then(function(invoices)
@@ -204,7 +209,7 @@ app.get('/invoices', function (req, res)
 
 app.get('/items', function (req, res)
 {
-    authorizedOperation(req,res,'/items', function(freshbooksApp)
+    authorizedOperation(req,res,'/items', function(err,freshbooksApp)
     {
         freshbooksApp.entities.items.list()
             .then(function(items)
@@ -217,7 +222,7 @@ app.get('/items', function (req, res)
 
 app.get('/projects', function (req, res)
 {
-    authorizedOperation(req,res,'/projects', function(freshbooksApp)
+    authorizedOperation(req,res,'/projects', function(err,freshbooksApp)
     {
         freshbooksApp.entities.projects.list()
             .then(function(projects)
@@ -235,10 +240,19 @@ app.use('/createinvoice', function (req, res)
         return res.render('createinvoice.html');
     }
     else if (req.method == 'POST') {
-        authorizedOperation(req, res, '/createinvoice', function (freshbooksApp)
+        authorizedOperation(req, res, '/createinvoice', function (err,freshbooksApp)
         {
             var invoice = freshbooksApp.entities.invoices.newInvoice({
-                client_id: req.body.client_id
+                client_id: req.body.client_id,
+                lines: [
+                    {
+                        name: 'Test Line Item',
+                        description: 'Test',
+                        unit_cost: 5,
+                        quantity: 5,
+                        type: 'Item'
+                    }
+                ]
             });
             invoice.save()
                 .then(function (invoiceId)
@@ -262,7 +276,7 @@ app.use('/emailinvoice', function (req, res)
     }
     else
     {
-        authorizedOperation(req,res,'/emailinvoice?id=' + req.query.id + '&a=1&email=' + encodeURIComponent(req.body.Email), function(freshbooksApp)
+        authorizedOperation(req,res,'/emailinvoice?id=' + req.query.id + '&a=1&email=' + encodeURIComponent(req.body.Email), function(err,freshbooksApp)
         {
             freshbooksApp.entities.invoices.get(req.query.id)
                 .then(function(invoice)

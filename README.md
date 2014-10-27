@@ -66,9 +66,9 @@ app.entities.clients.list({ pager: {start:1 /* page number */, callback:onClient
     })
 
 /* Called per page */
-function onClient(err, response, cb)
+function onClients(err, response, cb)
 {
-    var customers = response.data;
+    var clients = response.data;
     if (response.finished) // finished paging
         ....
     cb(); // Async support
@@ -89,8 +89,8 @@ app.entities.clients.list({ filter: {email: 'bob@test.com' }})
     })
 ```
 
+Get one entity
 ```
-// Get one entity
 app.entities.clients.get('123456')
     .then(function(client)
     {

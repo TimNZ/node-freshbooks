@@ -3,6 +3,11 @@
 {% block title %}Time Entries{% endblock %}
 
 {% block content %}
+{% if err %}
+<h4>Error</h4>
+{{ err.code }} - {{ err.error }}
+{% endif %}
+
 <h3>Time Entries</h3>
 <table class="table table-bordered table-striped table-collapsed">
     <thead>
